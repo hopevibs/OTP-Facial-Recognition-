@@ -2,7 +2,7 @@ import { prisma } from '../config';
 import { ResponseHelper, CryptographyHelper } from '../helpers';
 import { paginate } from '../utilities';
 import {messagingService} from '../services';
-import {log} from "prisma/prisma-client/generator-build";
+// import {log} from "prisma/prisma-client/generator-build";
 
 /**
  * A controller class for handling authentication-related requests.
