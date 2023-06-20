@@ -1,9 +1,11 @@
 import express from 'express';
 import dotenv from 'dotenv';
-import { ErrorHandler } from './middleware/index.js';
+import { ErrorHandler } from './middleware';
 import { swaggerDocs } from './api.doc.js';
-import { apiRoute } from './routes/index.js';
+import { apiRoute } from './routes';
 import cors from 'cors';
+
+import './config';
 
 // ## dot env config;
 dotenv.config();

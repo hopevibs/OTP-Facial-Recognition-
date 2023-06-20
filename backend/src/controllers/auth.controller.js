@@ -1,7 +1,8 @@
-import { prisma } from '../config/index.js';
-import { ResponseHelper, CryptographyHelper } from '../helpers/index.js';
+import { prisma } from '../config';
+import { ResponseHelper, CryptographyHelper } from '../helpers';
 import { paginate } from '../utilities';
 import {messagingService} from '../services';
+import {log} from "prisma/prisma-client/generator-build";
 
 /**
  * A controller class for handling authentication-related requests.
@@ -25,7 +26,7 @@ class AuthController {
              *     password: "wereyepassword"
              * }
              * **/
-            const { email, password, username, phoneNumber } = req.body;
+            const { email, username, password, phoneNumber } = req.body;
 
             /**
              * @description find a user in the data using the email
@@ -68,6 +69,7 @@ class AuthController {
             return new ResponseHelper(res).success(createdUser);
         } catch (e) {
             // Send an error response with a generic error message
+            console.log(e);
             return next(new ResponseHelper(res).error('Internal server error'));
         }
     }
@@ -138,7 +140,7 @@ class AuthController {
             delete user.password;
 
             // Send a success response with the created user object
-            return next(new ResponseHelper(res).success(user));
+            return new ResponseHelper(res).success(user);
         } catch (e) {
             console.log(e);
             // Send an error response with a generic error message
@@ -187,14 +189,14 @@ class AuthController {
      * Send OTP the user
      * @async
      * @param {object} req - The express request object.
-     * @param {object} req- The express request object.
+     * @param {object} res- The express response object.
      * @param {Function} next - The Express next function.
      * @returns {Promise<void>} A promise that resolves when the user has the right credential rejects with an error.
      * */
     async sendSms(req, res, next){
     try {
         const {phoneNumber} = req.body;
-        messagingService.sendSms({
+       return await messagingService.sendSms({
             phoneNumber,
             name: 'Brand OTP verification code',
             content: `The verification code is ${1515151}`
